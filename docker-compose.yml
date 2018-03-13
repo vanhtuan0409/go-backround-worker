@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  redis:
+    image: "redis:alpine"
+    volumes:
+      - ./data:/data
+    ports:
+      - 6379:6379
+
+  webui:
+    image: "harrisbaird/workwebui"
+    depends_on:
+      - redis
+    environment:
+      - VARIABLE=redis://redis:6379
+      - REDIS_NAMESPACE=my_app
+    ports:
+      - 8080:8080
